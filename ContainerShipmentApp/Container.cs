@@ -17,5 +17,23 @@ public abstract class Container
         SerialNumber = serialNumber;
         MaxLoadCapacity = maxLoadCapacity;
     }
+    
+    private static string SerialNumberGenerator(string containerType)
+    {
+        return $"KON-{containerType}-{new Random().Next(1000, 9999)}";
+    }
+    
+    public virtual void LoadContainer(double mass)
+    {
+        if (mass > MaxLoadCapacity)
+            throw new OverfillException("Mass exceeds MaxLoad");
+        
+        LoadMass = mass;
+    }
+
+    public void UnloadContainer()
+    {
+        LoadMass = 0;
+    }
 
 }
