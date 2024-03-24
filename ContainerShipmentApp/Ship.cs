@@ -1,7 +1,7 @@
 using ContainerShipmentApp;
 
 public class Ship{
-    private List<Container> containers = new List<Container>();
+    public List<Container> containers = new List<Container>();
     public string Name { get; set; }
     public double MaxSpeed { get; set; }
     public int MaxContainerCount { get; set; }

@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
+using System.Xml;
 
 namespace ContainerShipmentApp;
 
@@ -49,13 +50,13 @@ public class ShipManagementSystem
                     createShip();
                     break;
                 case "lls":
-                
+                    loadListShip();
                     break;
                 case "rc":
                 
                     break;
                 case "uc":
-                
+                    uc();
                     break;
                 case "ex": 
                     
@@ -249,7 +250,109 @@ public class ShipManagementSystem
         Ships.Add(new Ship(maxSpeed, maxContainerCount, maxContainerMass, name));
         
     }
-    
+
+    public static void loadListShip()
+    {
+        bool con = true;
+        bool ans;
+        while (con)
+        {
+            lc();
+            ans = true;
+            while (ans)
+            {
+                
+                Console.WriteLine("Would you like to continue loading containers? Y/N");
+                string answer = Console.ReadLine().ToUpper();
+                if (answer.Equals("Y"))
+                    ans = false;
+                else if (answer.Equals("N"))
+                {
+                    ans = false;
+                    con = false;
+                }
+            }
+        }
+        
+    }
+
+    public static void uc()
+    {
+        DisplayContainers();
+
+        if (Containers.Any())
+        {
+            Console.WriteLine("Enter container serial number:");
+            string serial = Console.ReadLine();
+            Container containerToUnload = Containers.FirstOrDefault(c => c.SerialNumber == serial);
+            if (containerToUnload != null)
+            {
+                containerToUnload.UnloadContainer();
+            }
+            else
+            {
+                Console.WriteLine("Container not found.");
+            }
+        }
+    }
+
+    public static void removeContainerFromShip()
+    {
+        if (Ships.Count == 0 || Ships == null)
+        {
+            Console.WriteLine("There are no ships registered in the system.");
+            return;
+        }
+        
+        DisplayShips();
+        Ship ChosenShip = null;
+        if (Ships.Any())
+        {
+            Console.WriteLine("Enter ships name:");
+            string name = Console.ReadLine();
+            ChosenShip = Ships.FirstOrDefault(s => s.Name == name);
+            if (ChosenShip == null)
+            {
+             Console.WriteLine("Ship not found");
+             return;
+            }
+        }
+        
+        Console.WriteLine(ChosenShip.ToString());
+
+        
+        Console.WriteLine("Enter container serial number:");
+        string serial = Console.ReadLine();
+        Container containerToLoad = Containers.FirstOrDefault(c => c.SerialNumber == serial);
+        if (containerToLoad != null)
+        {
+            if (containerToLoad is RefrigeratedContainer refrigeratedContainerToLoad)
+            {
+                Console.WriteLine("Enter load mass:");
+                double mass = Convert.ToDouble(Console.ReadLine());
+                Console.WriteLine("Enter type of cargo that you want to load:");
+                string type = Convert.ToString(Console.ReadLine());
+                refrigeratedContainerToLoad.LoadContainer(mass, type);
+                Console.WriteLine("Container loaded successfully.");
+            }
+            else
+            {
+                Console.WriteLine("Enter load mass:");
+                double mass = Convert.ToDouble(Console.ReadLine());
+                containerToLoad.LoadContainer(mass);
+                Console.WriteLine("Container loaded successfully.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Container not found.");
+        }
+        
+        // Usuwanie wybranego kontenera
+        Container containerToRemove = selectedShip.Containers[containerChoice - 1];
+        selectedShip.Containers.RemoveAt(containerChoice - 1);
+        Console.WriteLine($"Container {containerToRemove.SerialNumber} has been removed from the ship.");
+    }
 
 
 
