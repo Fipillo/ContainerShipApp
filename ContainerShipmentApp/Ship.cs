@@ -2,15 +2,17 @@ using ContainerShipmentApp;
 
 public class Ship{
     private List<Container> containers = new List<Container>();
+    public string Name { get; set; }
     public double MaxSpeed { get; set; }
     public int MaxContainerCount { get; set; }
     public double MaxTotalMass { get; set; }
 
-    public Ship(double maxSpeed, int maxContainerCount, double maxTotalMass)
+    public Ship(double maxSpeed, int maxContainerCount, double maxTotalMass, string name)
     {
         MaxSpeed = maxSpeed;
         MaxContainerCount = maxContainerCount;
         MaxTotalMass = maxTotalMass;
+        Name = name;
     }
 
     public void AddContainer(Container container)
@@ -37,6 +39,7 @@ public class Ship{
     public override string ToString()
     {
         string shipInfo = $"Ship Details:\n" +
+                          $"Name: {Name}\n" +
                           $"Max Speed: {MaxSpeed} knots\n" +
                           $"Max Container Count: {MaxContainerCount}\n" +
                           $"Max Total Mass: {MaxTotalMass} kg\n" +
