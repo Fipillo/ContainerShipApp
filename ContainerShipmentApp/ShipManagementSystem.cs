@@ -43,10 +43,10 @@ public class ShipManagementSystem
                     lc();
                     break;
                 case "ls":
-                
+                    loadShip();
                     break;
                 case "cs":
-                
+                    createShip();
                     break;
                 case "lls":
                 
@@ -64,10 +64,10 @@ public class ShipManagementSystem
                 
                     break;
                 case "ci":
-                
+                    DisplayContainers();
                     break;
                 case "si":
-                
+                    DisplayShips();
                     break;
                 case "q":
                 running = false;
@@ -232,6 +232,26 @@ public class ShipManagementSystem
 
         }
     }
+
+    public static void createShip()
+    {
+        Console.WriteLine("Enter name for the ship:");
+        string name = Console.ReadLine();
+        Console.WriteLine("Enter ship's max speed:");
+        double maxSpeed = Convert.ToDouble(Console.ReadLine());
+        Console.WriteLine("Enter ship's max number of containers:");
+        int maxContainerCount = Convert.ToInt32(Console.ReadLine());
+        Console.WriteLine("Enter ship's max container mass");
+        double maxContainerMass = Convert.ToDouble(Console.ReadLine());
+        
+        
+        Console.WriteLine($"Ship {name} created succesfuly");
+        Ships.Add(new Ship(maxSpeed, maxContainerCount, maxContainerMass, name));
+        
+    }
+    
+
+
 
 
 
