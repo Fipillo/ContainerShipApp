@@ -31,4 +31,9 @@ public class GasContainer : Container, IHazardNotifier
     {
         Console.WriteLine($"Hazard warning for container {SerialNumber}: {message}");
     }
+    
+    public override string ToString()
+    {
+        return base.ToString() + $", Pressure: {Pressure} atm";
+    }
 }

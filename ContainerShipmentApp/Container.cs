@@ -35,5 +35,10 @@ public abstract class Container
     {
         LoadMass = 0;
     }
+    
+    public override string ToString()
+    {
+        return $"Serial: {SerialNumber}, Height: {Height}, Weight: {ContWeight}, Depth: {Depth}, Max Load: {MaxLoadCapacity}";
+    }
 
 }
