@@ -1,14 +1,18 @@
+using System.ComponentModel.DataAnnotations;
+using System.Runtime.CompilerServices;
+
 namespace ContainerShipmentApp;
 
 public class ShipManagementSystem
 {
-    public static void ManageShips(){
+    public static List<Container> Containers = new List<Container>();
+
+    public List<Ship> Ships = new List<Ship>();
+    public void ManageShips(){
         
         bool running = true;
 
-        List<Container> Containers = new List<Container>();
-
-        List<Ship> Ships = new List<Ship>();
+        
 
         Console.WriteLine("Welcome to the Ship Management System!"); 
         while (running)
@@ -33,27 +37,12 @@ public class ShipManagementSystem
             switch (choice)
             {
                 case "cc":
-                    Container newContainer = cc();
-                    if (newContainer != null)
-                        Containers.Add(newContainer);
+                    cc();
                     break;
                 
                 case "lc":
                     
-                    Console.WriteLine("Enter container serial number:");
-                    string serial = Console.ReadLine();
-                    Container containerToLoad = Containers.FirstOrDefault(c => c.SerialNumber == serial);
-                    if(containerToLoad != null)
-                    {
-                        Console.WriteLine("Enter load mass:");
-                        double mass = Convert.ToDouble(Console.ReadLine());
-                        containerToLoad.LoadContainer(mass);
-                        Console.WriteLine("Container loaded successfully.");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Container not found.");
-                    }
+
                     break;
                 case "ls":
                 
@@ -92,7 +81,7 @@ public class ShipManagementSystem
         }
     }
 
-    public static Container cc()
+    public static void cc()
     {
         Console.WriteLine("Select container type: [L]iquid, [G]as, [R]efrigerated");
         string containerType = Console.ReadLine().ToUpper();
@@ -129,15 +118,92 @@ public class ShipManagementSystem
         if(newContainer != null)
         {
             Console.WriteLine("Container created successfully.");
-            return (newContainer);
+            Containers.Add(newContainer);
             
         }
-
-        return null;
     }
-    // public static void displayContainers(List<Container> containers) {
-    //     for (c : containers)
-    // }
+
+    public static void lc()
+    {
+        DisplayContainers();
+        
+        if (Containers.Any())
+        {
+            Console.WriteLine("Enter container serial number:");
+            string serial = Console.ReadLine();
+            Container containerToLoad = Containers.FirstOrDefault(c => c.SerialNumber == serial);
+            if (containerToLoad != null)
+            {
+                if (containerToLoad is RefrigeratedContainer refrigeratedContainerToLoad)
+                {
+                    Console.WriteLine("Enter load mass:");
+                    double mass = Convert.ToDouble(Console.ReadLine());
+                    Console.WriteLine("Enter type of cargo that you want to load:");
+                    string type = Convert.ToString(Console.ReadLine());
+                    refrigeratedContainerToLoad.LoadContainer(mass, type);
+                    Console.WriteLine("Container loaded successfully.");
+                }
+                else
+                {
+                    Console.WriteLine("Enter load mass:");
+                    double mass = Convert.ToDouble(Console.ReadLine());
+                    containerToLoad.LoadContainer(mass);
+                    Console.WriteLine("Container loaded successfully.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Container not found.");
+            }
+        }
+        
+        
+        
+    }
+
+
+    public static bool DisplayContainers()
+    {
+        if (Containers.Any())
+        {
+            Console.WriteLine("Containers list:");
+            foreach (var container in Containers)
+                Console.WriteLine(container.ToString());
+            return true;
+        }
+
+        else
+        {
+            Console.WriteLine("No containers to display.");
+            return false;
+        }
+    }
+
+    public static bool DisplayShips(List<Ship> Ships)
+    {
+        if (Ships == null || Ships.Count == 0)
+        {
+            Console.WriteLine("No ships are currently registered in the system.");
+            return false;
+        }
+
+        Console.WriteLine("Displaying information for all ships:");
+
+        foreach (Ship ship in Ships)
+        {
+            Console.WriteLine(ship.ToString());
+            Console.WriteLine("---------------------------------------");
+        }
+        return true;
+    }
+
+    
+    
+
+
+
+    
+    
 
 }
 
