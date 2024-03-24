@@ -1,7 +1,5 @@
 namespace ContainerShipmentApp;
 
-public class RefrigiratedContainer
-{
     public class RefrigeratedContainer : Container, IHazardNotifier
     {
         public string ContentType { get; set; }
@@ -21,16 +19,19 @@ public class RefrigiratedContainer
             if (mass > MaxLoadCapacity)
                 throw new OverfillException("Mass exceeds MaxLoad");
             
-            if(contentType == ContentType)
+            if(contentType == ContentType){
                 NotifyHazard($"Types of contents does not match");
+                throw new Exception("Types of contents does not match");
+                }
+                    
         
-            LoadMass = mass;
+            base.LoadContainer(mass);
         }
 
         public void UnloadContainer()
         {
-            LoadMass = 0;
-            ContentType = "none";
+            base.UnloadContainer();
+            ContentType = null;
         }
 
 
@@ -40,4 +41,3 @@ public class RefrigiratedContainer
         }
         
     }
-}
